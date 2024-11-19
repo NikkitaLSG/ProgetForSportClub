@@ -1,7 +1,9 @@
 package com.example.myapplication;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -17,46 +19,48 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Инициализация View Binding
+        // Initialize View Binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Настройка BottomNavigationView
-        BottomNavigationView navView = binding.navView; // Используем View Binding для доступа к navView
+        // Setting up BottomNavigationView
+        BottomNavigationView navView = binding.navView;
 
-        // Указываем все верхнеуровневые пункты меню для навигации
+        // Specify top-level destinations for navigation
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.registerFragment) // Добавьте идентификатор фрагмента регистрации
+                R.id.navigation_home,
+                R.id.navigation_dashboard,
+                R.id.navigation_notifications,
+                R.id.registerFragment) // Make sure this ID is correct
                 .build();
 
-        // Получаем NavController и связываем его с ActionBar и BottomNavigationView
+        // Obtain NavController and set up ActionBar and BottomNavigationView
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController); // Используем navView из View Binding
+        NavigationUI.setupWithNavController(navView, navController);
 
-        // Устанавливаем обработчик навигации для BottomNavigationView
-        navView.setOnNavigationItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.navigation_home) {
-                navController.navigate(R.id.navigation_home);
-                return true;
-            } else if (itemId == R.id.navigation_dashboard) {
-                navController.navigate(R.id.navigation_dashboard);
-                return true;
-            } else if (itemId == R.id.navigation_notifications) {
-                navController.navigate(R.id.navigation_notifications);
-                return true;
-            } else if (itemId == R.id.registerFragment) {
-                navController.navigate(R.id.registerFragment);
-                return true;
-            }
-            return false;
-        });
+        // Initialize UI components
+        initializeUI();
+    }
 
+    private void initializeUI() {
+        ImageView profileImage = findViewById(R.id.profile_image);
+        TextView fullName = findViewById(R.id.full_name);
+        RatingBar ratingBar = findViewById(R.id.rating_bar);
+
+        // Set data
+        profileImage.setImageResource(R.drawable.ic_dashboard_black_24dp); // Замените на ваше изображение без расширения
+        fullName.setText("Иван Иванов");
+        ratingBar.setRating(4); // Задайте рейтинг
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+        return navController.navigateUp() || super.onSupportNavigateUp();
     }
 }

@@ -1,24 +1,18 @@
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
+        google() // Репозиторий Google для Android плагинов
+        mavenCentral() // Репозиторий Maven Central
+        gradlePluginPortal() // Репозиторий плагинов Gradle
     }
 }
 
-rootProject.name = "My Application"
-include(":app")
- 
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google() // Репозиторий Google
+        mavenCentral() // Репозиторий Maven Central
+    }
+}
+
+rootProject.name = "MyApplication" // Убедитесь, что имя проекта соответствует
+include(":app") // Включите модуль приложения
